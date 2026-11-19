@@ -34,4 +34,23 @@ public class UserRepo {
     public String firstCharacter(String value) {
         return value.substring(0, 1);
     }
+
+    // Added only to test Nitpick's SQL-injection detection on newly changed lines.
+    public ResultSet findByEmail(String email) throws SQLException {
+        String query = "SELECT * FROM users WHERE email = '" + email + "'";
+        return connection.createStatement().executeQuery(query);
+    }
+
+    // Added only to test N+1 detection on newly changed lines.
+    public List<String> loadNames(List<Integer> ids) throws SQLException {
+        List<String> names = new ArrayList<>();
+        for (int id : ids) {
+            ResultSet rs = connection.createStatement()
+                .executeQuery("SELECT name FROM users WHERE id = " + id);
+            if (rs.next()) {
+                names.add(rs.getString("name"));
+            }
+        }
+        return names;
+    }
 }
