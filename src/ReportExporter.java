@@ -38,3 +38,9 @@ public class ReportExporter {
         return null;
     }
 }
+
+class Cleanup {
+    String firstName(java.util.Map<String, String> users, String id) {
+        return users.get(id).trim();
+    }
+}
